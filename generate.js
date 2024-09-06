@@ -30,38 +30,31 @@ numbers_map.set(12, 2);
 function randomResource() {
     let done = false;
     while (!done) {
-        let resource_num = Math.floor(Math.random() * 6);
-        switch(resource_num) {
-            case 0:
-                if (resources_map.get("S") > 0) {
+        let resource_num = Math.floor(Math.random() * 30);
+        if (resource_num < 6) {
+            if (resources_map.get("S") > 0) {
                     return "S";
-                }
-                break;
-            case 1:
-                if (resources_map.get("W") > 0) {
+            }
+        } else if (resource_num < 12) {
+            if (resources_map.get("W") > 0) {
                     return "W";
-                }
-                break;
-            case 2:
-                if (resources_map.get("H") > 0) {
-                    return "H";
-                }
-                break;
-            case 3:
-                if (resources_map.get("B") > 0) {
-                    return "B";
-                }
-                break;
-            case 4:
-                if (resources_map.get("O") > 0) {
-                    return "O";
-                }
-                break;
-            case 5:
-                if (resources_map.get("D") > 0) {
-                    return "D";
-                }
-                break; 
+            }
+        } else if (resource_num < 18) {
+            if (resources_map.get("H") > 0) {
+                return "H";
+            }
+        } else if (resource_num < 23) {
+            if (resources_map.get("B") > 0) {
+                return "B";
+            }
+        } else if (resource_num < 28) {
+            if (resources_map.get("O") > 0) {
+                return "O";
+            }
+        } else {
+            if (resources_map.get("D") > 0) {
+                return "D";
+            }
         }
     }
 }
