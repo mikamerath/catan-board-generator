@@ -419,7 +419,7 @@ function drawGrid(width, height, ctx, board) {
     let hexNum = 0;
     for (let y = r; y + r * Math.sin(a) < height; y += r * Math.sin(a)) {
         for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
-            console.log("drawing hex " + hexNum + " at " + x + "," + y)
+            //console.log("drawing hex " + hexNum + " at " + x + "," + y)
             let maybeTile = hexToTile_map.get(hexNum)
             if (maybeTile !== undefined) {
                 drawHexagon(x, y, ctx);
@@ -431,6 +431,7 @@ function drawGrid(width, height, ctx, board) {
 }
   
 function drawHexagon(x, y, ctx) {
+    ctx.strokeStyle = "silver";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
         ctx.lineTo(x + r * Math.cos(a * i), y + r * Math.sin(a * i));
@@ -439,9 +440,51 @@ function drawHexagon(x, y, ctx) {
     ctx.stroke();
 }
 
+function getResourceName(resource) {
+    switch (resource) {
+        case "S":
+            return "Sheep";
+        case "W":
+            return "Wood";
+        case "H":
+            return "Wheat";
+        case "B":
+            return "Brick";
+        case "O":
+            return "Ore";
+        case "D":
+            return "Desert";                                                             
+    }
+}
+
+function getResourceColor(resource) {
+    switch (resource) {
+        case "S":
+            return "tan";
+        case "W":
+            return "darkgreen";
+        case "H":
+            return "goldenrod";
+        case "B":
+            return "indianred";
+        case "O":
+            return "slategray";
+        case "D":
+            return "khaki";                                                             
+    }
+}
+
 function drawText(x, y, tile, ctx) {
-    ctx.fillText(tile.resource, x, y);
-    ctx.fillText(tile.number, x, y + 20);
+    let resourceName = getResourceName(tile.resource);
+    ctx.font = "bold small-caps 20px Garamond, serif";
+    ctx.fillStyle = getResourceColor(tile.resource);
+    ctx.fillText(resourceName, x, y-5);
+    if (tile.numberCategory === "vhi") {
+        ctx.fillStyle = "red";
+    } else {
+        ctx.fillStyle = "black";
+    }
+    if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
 }
 
 /////// end code from https://eperezcosano.github.io/hex-grid/ 
@@ -449,6 +492,7 @@ function drawText(x, y, tile, ctx) {
 function drawBoard(board) {
     const canvas = document.getElementById("visualBoard");
     const ctx = canvas.getContext("2d");
+    ctx.textAlign = "center";
     drawGrid(canvas.width, canvas.height, ctx, board);
 }
 
