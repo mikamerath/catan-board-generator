@@ -365,6 +365,93 @@ function printBoard(board, attemptCountResources, attemptCountNumbers, isValid) 
     console.log(result);
 }
 
+/////////// Hex grid drawing code from https://eperezcosano.github.io/hex-grid/ 
+const a = 2 * Math.PI / 6;
+const r = 50;
+
+function drawGrid(width, height, ctx, board) {
+    let hexToTile_map = new Map([
+        [0, undefined],
+        [1, undefined],
+        [2, undefined],
+        [3, board[0][3]],
+        [4, undefined],
+        [5, undefined],
+        [6, undefined],
+        [7, undefined],
+        [8, board[0][1]],
+        [9, board[0][2]],
+        [10, board[1][3]],
+        [11, board[1][4]],
+        [12, board[2][5]],
+        [13, undefined],
+        [14, board[0][0]],
+        [15, board[1][1]],
+        [16, board[1][2]],
+        [17, board[2][3]],
+        [18, board[2][4]],
+        [19, board[3][5]],
+        [20, board[3][6]],
+        [21, board[1][0]],
+        [22, board[2][1]],
+        [23, board[2][2]],
+        [24, board[3][3]],
+        [25, board[3][4]],
+        [26, board[4][5]],
+        [27, board[4][6]],
+        [28, board[2][0]],
+        [29, board[3][1]],
+        [30, board[3][2]],
+        [31, board[4][3]],
+        [32, board[4][4]],
+        [33, board[5][5]],
+        [34, board[5][6]],
+        [35, undefined],
+        [36, undefined],
+        [37, board[4][2]],
+        [38, board[5][3]],
+        [39, board[5][4]],
+        [40, undefined],
+        [41, undefined],
+    ]);
+
+
+    let hexNum = 0;
+    for (let y = r; y + r * Math.sin(a) < height; y += r * Math.sin(a)) {
+        for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
+            console.log("drawing hex " + hexNum + " at " + x + "," + y)
+            let maybeTile = hexToTile_map.get(hexNum)
+            if (maybeTile !== undefined) {
+                drawHexagon(x, y, ctx);
+                drawText(x, y, maybeTile, ctx)
+            }
+            hexNum++;
+        }
+    }
+}
+  
+function drawHexagon(x, y, ctx) {
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+        ctx.lineTo(x + r * Math.cos(a * i), y + r * Math.sin(a * i));
+    }
+    ctx.closePath();
+    ctx.stroke();
+}
+
+function drawText(x, y, tile, ctx) {
+    ctx.fillText(tile.resource, x, y);
+    ctx.fillText(tile.number, x, y + 20);
+}
+
+/////// end code from https://eperezcosano.github.io/hex-grid/ 
+
+function drawBoard(board) {
+    const canvas = document.getElementById("visualBoard");
+    const ctx = canvas.getContext("2d");
+    drawGrid(canvas.width, canvas.height, ctx, board);
+}
+
 let areResourcesValid = false;
 let areNumbersValid = false;
 let attemptCountResources = 0;
@@ -386,6 +473,7 @@ if (areResourcesValid) {
 
     if (areNumbersValid) {
         printBoard(board, attemptCountResources, attemptCountNumbers, areResourcesValid && areNumbersValid);
+        drawBoard(board)
         console.log("Done!");
     } else {
         console.log("Could not find a valid number placement :(");
