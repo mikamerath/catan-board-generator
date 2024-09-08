@@ -504,10 +504,10 @@ function createHiPPICanvas(width, height) {
 }
 
 function drawBoard(board) {
-    const canvas = createHiPPICanvas(520, 600);
-    const parent = document.getElementById("visualboard");
-    parent.appendChild(canvas);  
-    //const canvas = document.getElementById("mycanvas");
+    //const canvas = createHiPPICanvas(520, 600);
+    //const parent = document.getElementById("visualboard");
+    //parent.appendChild(canvas);  
+    const canvas = document.getElementById("mycanvas");
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
     drawGrid(canvas.width, canvas.height, ctx, board);
