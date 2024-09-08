@@ -487,10 +487,27 @@ function drawText(x, y, tile, ctx) {
     if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
 }
 
-/////// end code from https://eperezcosano.github.io/hex-grid/ 
+/////// end code from https://eperezcosano.github.io/hex-grid/
+
+//// from https://stackoverflow.com/questions/15661339/how-do-i-fix-blurry-text-in-my-html5-canvas
+function createHiPPICanvas(width, height) {
+    const ratio = window.devicePixelRatio;
+    const canvas = document.createElement("canvas");
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    canvas.getContext("2d").scale(ratio, ratio);
+
+    return canvas;
+}
 
 function drawBoard(board) {
-    const canvas = document.getElementById("visualBoard");
+    const canvas = createHiPPICanvas(520, 600);
+    const parent = document.getElementById("visualboard");
+    parent.appendChild(canvas);  
+    //const canvas = document.getElementById("mycanvas");
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
     drawGrid(canvas.width, canvas.height, ctx, board);
