@@ -365,11 +365,12 @@ function printBoard(board, attemptCountResources, attemptCountNumbers, isValid) 
     console.log(result);
 }
 
-/////////// Hex grid drawing code from https://eperezcosano.github.io/hex-grid/ 
+/////////// Hex grid drawing code adapted from https://eperezcosano.github.io/hex-grid/ 
 const a = 2 * Math.PI / 6;
 const r = 50;
 
 function drawGrid(width, height, ctx, board) {
+    //console.log("Width: " + width + ", height: " + height) // todo remove
     let hexToTile_map = new Map([
         [0, undefined],
         [1, undefined],
@@ -419,10 +420,10 @@ function drawGrid(width, height, ctx, board) {
     let hexNum = 0;
     for (let y = r; y + r * Math.sin(a) < height; y += r * Math.sin(a)) {
         for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
-            //console.log("drawing hex " + hexNum + " at " + x + "," + y)
             let maybeTile = hexToTile_map.get(hexNum)
             if (maybeTile !== undefined) {
                 drawHexagon(x, y, ctx);
+                //ctx.fillText(hexNum, x, y - 25); // todo remove this
                 drawText(x, y, maybeTile, ctx)
             }
             hexNum++;
@@ -489,28 +490,34 @@ function drawText(x, y, tile, ctx) {
 
 /////// end code from https://eperezcosano.github.io/hex-grid/
 
-//// from https://stackoverflow.com/questions/15661339/how-do-i-fix-blurry-text-in-my-html5-canvas
-function createHiPPICanvas(width, height) {
-    const ratio = window.devicePixelRatio;
+//// adapted from https://stackoverflow.com/questions/15661339/how-do-i-fix-blurry-text-in-my-html5-canvas
+function createHiPPICanvas(width, height, pixelRatio) {
     const canvas = document.createElement("canvas");
-
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-    canvas.getContext("2d").scale(ratio, ratio);
-
+    
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext("2d").scale(pixelRatio, pixelRatio);
+    
+    canvas.style.width = (width / pixelRatio) + "px";
+    canvas.style.height = (height / pixelRatio) + "px";
+    
     return canvas;
 }
 
 function drawBoard(board) {
-    //const canvas = createHiPPICanvas(520, 600);
-    //const parent = document.getElementById("visualboard");
-    //parent.appendChild(canvas);  
-    const canvas = document.getElementById("mycanvas");
+    const pixelRatio = window.devicePixelRatio;
+    console.log("Device pixel ratio: " + pixelRatio);
+    
+    const targetWidth = 650;
+    const targetHeight = 650;
+    const canvas = createHiPPICanvas(targetWidth * pixelRatio, targetHeight * pixelRatio, pixelRatio);
+    
+    const parent = document.getElementById("visualboard");
+    parent.appendChild(canvas);  
+    // const canvas = document.getElementById("mycanvas");
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
-    drawGrid(canvas.width, canvas.height, ctx, board);
+    drawGrid(targetWidth, targetHeight, ctx, board);
 }
 
 let areResourcesValid = false;
