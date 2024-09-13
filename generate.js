@@ -370,7 +370,6 @@ const a = 2 * Math.PI / 6;
 const r = 50;
 
 function drawGrid(width, height, ctx, board) {
-    //console.log("Width: " + width + ", height: " + height) // todo remove
     let hexToTile_map = new Map([
         [0, undefined],
         [1, undefined],
@@ -424,67 +423,81 @@ function drawGrid(width, height, ctx, board) {
             if (maybeTile !== undefined) {
                 drawHexagon(x, y, ctx);
                 //ctx.fillText(hexNum, x, y - 25); // todo remove this
+                if (maybeTile.resource != "D") drawCircle(x, y, ctx);
                 drawText(x, y, maybeTile, ctx)
             }
             hexNum++;
         }
     }
 }
+
+function drawCircle(x, y, ctx) {
+    ctx.fillStyle = "linen";
+    ctx.beginPath();
+    ctx.arc(x, y + 21, 12, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+}
   
 function drawHexagon(x, y, ctx) {
-    ctx.strokeStyle = "silver";
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.fillStyle = "white";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
         ctx.lineTo(x + r * Math.cos(a * i), y + r * Math.sin(a * i));
     }
     ctx.closePath();
+    ctx.fill();
     ctx.stroke();
 }
 
 function getResourceName(resource) {
     switch (resource) {
         case "S":
-            return "Sheep";
+            return "SHEEP";
         case "W":
-            return "Wood";
+            return "WOOD";
         case "H":
-            return "Wheat";
+            return "WHEAT";
         case "B":
-            return "Brick";
+            return "BRICK";
         case "O":
-            return "Ore";
+            return "ORE";
         case "D":
-            return "Desert";                                                             
+            return "DESERT";                                                             
     }
 }
 
 function getResourceColor(resource) {
     switch (resource) {
         case "S":
-            return "tan";
+            return "lawngreen";
         case "W":
-            return "darkgreen";
+            return "forestgreen";
         case "H":
-            return "goldenrod";
+            return "gold";
         case "B":
-            return "indianred";
+            return "#d13e11";
         case "O":
-            return "slategray";
+            return "gray";
         case "D":
-            return "khaki";                                                             
+            return "black";                                                             
     }
 }
 
 function drawText(x, y, tile, ctx) {
     let resourceName = getResourceName(tile.resource);
-    ctx.font = "bold small-caps 20px Garamond, serif";
+    ctx.font = "bold 18px Garamond, serif";
     ctx.fillStyle = getResourceColor(tile.resource);
-    ctx.fillText(resourceName, x, y-5);
+    let resourceY = !tile.number ? y + 3 : y - 2;
+    ctx.fillText(resourceName, x, resourceY);
     if (tile.numberCategory === "vhi") {
         ctx.fillStyle = "red";
     } else {
         ctx.fillStyle = "black";
     }
+    ctx.font = "bold 16px Garamond, serif";
     if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
 }
 
@@ -514,7 +527,6 @@ function drawBoard(board) {
     
     const parent = document.getElementById("visualboard");
     parent.appendChild(canvas);  
-    // const canvas = document.getElementById("mycanvas");
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
     drawGrid(targetWidth, targetHeight, ctx, board);

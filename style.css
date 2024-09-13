@@ -1,12 +1,16 @@
+html {
+    background-color: black;
+}
+
 body {
     font-family: 'Garamond', serif;
     margin-left: 50px;
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 78px;
     font-weight: bold;
-    font-variant: small-caps;
     padding-left: 20px;
-    color: darkslategray;
+    margin-bottom: 0px;
+    color: gold;
 }
