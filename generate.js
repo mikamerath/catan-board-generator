@@ -37,86 +37,6 @@ class Tile {
 
 // helper functions 
 
-function randomResource(resources_map) {
-    let done = false;
-    while (!done) {
-        let resource_num = Math.floor(Math.random() * 30);
-        if (resource_num < 6) {
-            if (resources_map.get("S") > 0) {
-                    return "S";
-            }
-        } else if (resource_num < 12) {
-            if (resources_map.get("W") > 0) {
-                    return "W";
-            }
-        } else if (resource_num < 18) {
-            if (resources_map.get("H") > 0) {
-                return "H";
-            }
-        } else if (resource_num < 23) {
-            if (resources_map.get("B") > 0) {
-                return "B";
-            }
-        } else if (resource_num < 28) {
-            if (resources_map.get("O") > 0) {
-                return "O";
-            }
-        } else {
-            if (resources_map.get("D") > 0) {
-                return "D";
-            }
-        }
-    }
-}
-
-function randomNumber(numbers_map) { // Number tile, not just any number.
-    let done = false;
-    while (!done) {
-        let number_num = Math.floor(Math.random() * 28);
-        if (number_num < 2) {
-            if (numbers_map.get(2) > 0) {
-                    return 2;
-            }
-        } else if (number_num < 5) {
-            if (numbers_map.get(3) > 0) {
-                    return 3;
-            }
-        } else if (number_num < 8) {
-            if (numbers_map.get(4) > 0) {
-                return 4;
-            }
-        } else if (number_num < 11) {
-            if (numbers_map.get(5) > 0) {
-                return 5;
-            }
-        } else if (number_num < 14) {
-            if (numbers_map.get(6) > 0) {
-                return 6;
-            }
-        } else if (number_num < 17) {
-            if (numbers_map.get(8) > 0) {
-                    return 8;
-            }
-        } else if (number_num < 20) {
-            if (numbers_map.get(9) > 0) {
-                return 9
-            }
-        } else if (number_num < 23) {
-            if (numbers_map.get(10) > 0) {
-                return 10;
-            }
-        } else if (number_num < 26) {
-            if (numbers_map.get(11) > 0) {
-                return 11;
-            }
-        } else {
-            if (numbers_map.get(12) > 0) {
-                return 12;
-            }
-        }
-    }
-}
-
 // returns true if the location on the board is a valid place to put a tile
 // (within bounds and not null)
 function isValidTile(r, c, board) {
@@ -128,14 +48,20 @@ function isValidTile(r, c, board) {
 
 // place tiles with resources in the board
 function createBoardWithResources() {
-    // define resources to place
-    let resources_map = new Map();
-    resources_map.set("S", 6); // Sheep
-    resources_map.set("W", 6); // Wood
-    resources_map.set("H", 6); // Wheat
-    resources_map.set("B", 5); // Brick
-    resources_map.set("O", 5); // Ore
-    resources_map.set("D", 2); // Desert
+    // define resources to place   
+    let resources_arr = [];
+    for (let i = 0; i < 6; ++i) {
+        resources_arr.push("S"); // Sheep
+        resources_arr.push("W"); // Wood
+        resources_arr.push("H"); // Wheat
+    }
+    for (let i = 0; i < 5; ++i) {
+        resources_arr.push("B"); // Brick
+        resources_arr.push("O"); // Ore
+    }
+    for (let i = 0; i < 2; ++i) {
+        resources_arr.push("D"); // Desert
+    }
 
     // generate an empty board
     let board = [[undefined, undefined, undefined, undefined, null, null, null],
@@ -149,10 +75,11 @@ function createBoardWithResources() {
     for (let r = 0; r < 6; r++) {
         for (let c = 0; c < 7; c++) {
             if (isValidTile(r, c, board)) {
-                // pick a random resource that has at least one left in it
-                let resource = randomResource(resources_map);
+                // pick a random resource 
+                let randIndex = Math.floor(Math.random() * resources_arr.length);
+                let resource = resources_arr[randIndex];
+                resources_arr = resources_arr.filter((_, j) => j != randIndex); // remove item at that index (no replacement)
                 board[r][c] = new Tile(r, c, resource);
-                resources_map.set(resource, resources_map.get(resource) - 1);
             }
         }
     }
@@ -161,18 +88,22 @@ function createBoardWithResources() {
 }
 
 function placeNumbersOnBoard(board) {
-    // define Numbers to place
-    let numbers_map = new Map();
-    numbers_map.set(2, 2);
-    numbers_map.set(3, 3);
-    numbers_map.set(4, 3);
-    numbers_map.set(5, 3);
-    numbers_map.set(6, 3);
-    numbers_map.set(8, 3);
-    numbers_map.set(9, 3);
-    numbers_map.set(10, 3);
-    numbers_map.set(11, 3);
-    numbers_map.set(12, 2);
+    // define Numbers to 
+    let numbers_arr = [];
+    for (let i = 0; i < 2; ++i) {
+        numbers_arr.push(2);
+        numbers_arr.push(12);
+    }
+    for (let i = 0; i < 3; ++i) {
+        numbers_arr.push(3);
+        numbers_arr.push(4);
+        numbers_arr.push(5);
+        numbers_arr.push(6);
+        numbers_arr.push(8);
+        numbers_arr.push(9);
+        numbers_arr.push(10);
+        numbers_arr.push(11);
+    }
 
     // place numbers
     for (let r = 0; r < 6; r++) {
@@ -180,11 +111,12 @@ function placeNumbersOnBoard(board) {
             if (isValidTile(r, c, board) && board[r][c] !== undefined && board[r][c].resource !== "D") { 
                 let tile = board[r][c];
                 // pick a random Number that has at least one left in it
-                let number = randomNumber(numbers_map);
+                let randIndex = Math.floor(Math.random() * numbers_arr.length);
+                let number = numbers_arr[randIndex];
+                numbers_arr = numbers_arr.filter((_, j) => j != randIndex); // remove item at that index (no replacement)
                 tile.number = number;
                 tile.numberCategory = getNumberCategory(board[r][c])
                 tile.countedNumberCheck = false;
-                numbers_map.set(number, numbers_map.get(number) - 1);
             }
         }
     }
