@@ -372,9 +372,15 @@ function drawCircle(x, y, ctx) {
 }
   
 function drawHexagon(x, y, ctx) {
+    // create linear gradient
+    let gradient = ctx.createLinearGradient(x - r, y - r, x + r, y + r);
+    gradient.addColorStop(0, "oldlace");
+    gradient.addColorStop(1, "white");
+    ctx.fillStyle = gradient;
+
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
-    ctx.fillStyle = "white";
+    //ctx.fillStyle = "white";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
         ctx.lineTo(x + r * Math.cos(a * i), y + r * Math.sin(a * i));
