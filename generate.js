@@ -20,6 +20,9 @@ let maxAttemptsToPlaceResources = 10000;
 
 let maxAttemptsToPlaceNumbers = 100000;
 
+let colorTextOnlyFlag = true;
+let redBackgroundFlag = true;
+
 // TILE CLASS
 
 class Tile {
@@ -353,8 +356,8 @@ function drawGrid(width, height, ctx, board) {
         for (let x = r, j = 0; x + r * (1 + Math.cos(a)) < width; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
             let maybeTile = hexToTile_map.get(hexNum)
             if (maybeTile !== undefined) {
-                drawHexagon(x, y, ctx);
-                //ctx.fillText(hexNum, x, y - 25); // todo remove this
+                drawHexagon(x, y, maybeTile, ctx);
+                //ctx.fillText(hexNum, x, y - 25); // todo remove this after building non-expansion support
                 if (maybeTile.resource != "D") drawCircle(x, y, ctx);
                 drawText(x, y, maybeTile, ctx)
             }
@@ -371,15 +374,22 @@ function drawCircle(x, y, ctx) {
     ctx.fill();
 }
   
-function drawHexagon(x, y, ctx) {
+function drawHexagon(x, y, tile, ctx) {
     // create linear gradient
     let gradient = ctx.createLinearGradient(x - r, y - r, x + r, y + r);
-    gradient.addColorStop(0, "oldlace");
-    gradient.addColorStop(1, "white");
+    if (colorTextOnlyFlag) {
+        gradient.addColorStop(0, "oldlace");
+        gradient.addColorStop(1, "white");
+    } else {
+        let colors = getResourceColors(tile.resource);
+        gradient.addColorStop(0, colors[0]);
+        gradient.addColorStop(1, colors[1]);
+    }
+    
     ctx.fillStyle = gradient;
 
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = "#be1d23";
+    ctx.strokeStyle = "#dccfb7";
     //ctx.fillStyle = "white";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
@@ -425,15 +435,19 @@ function getResourceColors(resource) { // dark, light
 }
 
 function drawText(x, y, tile, ctx) {
-    // define gradient
-    let colors = getResourceColors(tile.resource);
-    let gradient = ctx.createLinearGradient(x - r, y - r/2, x + r, y);
-    gradient.addColorStop(0, colors[0]);
-    gradient.addColorStop(1, colors[1]);
-
     let resourceName = getResourceName(tile.resource);
     ctx.font = "bold 18px Georgia, serif";
-    ctx.fillStyle = gradient;
+    if (colorTextOnlyFlag) {
+        // define gradient
+        let colors = getResourceColors(tile.resource);
+        let gradient = ctx.createLinearGradient(x - r, y - r/2, x + r, y);
+        gradient.addColorStop(0, colors[0]);
+        gradient.addColorStop(1, colors[1]);
+        ctx.fillStyle = gradient;
+    } else {
+        ctx.fillStyle = "white";
+    }
+    
     let resourceY = !tile.number ? y + 3 : y - 2;
     ctx.fillText(resourceName, x, resourceY);
     if (tile.numberCategory === "vhi") {
@@ -441,7 +455,7 @@ function drawText(x, y, tile, ctx) {
     } else {
         ctx.fillStyle = "black";
     }
-    ctx.font = "bold 14px Georgia, serif";
+    ctx.font = "bold 15px Georgia, serif";
     if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
 }
 
@@ -474,6 +488,13 @@ function drawBoard(board) {
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
     drawGrid(targetWidth, targetHeight, ctx, board);
+}
+
+// set page background color
+if (redBackgroundFlag) {
+    document.documentElement.style.setProperty("background-color", "#be1d23");
+} else {
+    document.documentElement.style.setProperty("background-color", "black");
 }
 
 let areResourcesValid = false;
