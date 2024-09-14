@@ -407,27 +407,33 @@ function getResourceName(resource) {
     }
 }
 
-function getResourceColor(resource) {
+function getResourceColors(resource) { // dark, light
     switch (resource) {
         case "S":
-            return "lawngreen";
+            return ["#619d3b", "#dcd569"];
         case "W":
-            return "forestgreen";
+            return ["#2d4716", "#89b936"];
         case "H":
-            return "gold";
+            return ["#975a1f", "#fdd051"];
         case "B":
-            return "#d13e11";
+            return ["#603822", "#e68531"];
         case "O":
-            return "gray";
+            return ["#443a62", "#b8ab93"];
         case "D":
-            return "tan";                                                             
+            return ["#deb977", "#cfc2ac"];                                                             
     }
 }
 
 function drawText(x, y, tile, ctx) {
+    // define gradient
+    let colors = getResourceColors(tile.resource);
+    let gradient = ctx.createLinearGradient(x - r, y - r/2, x + r, y);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(1, colors[1]);
+
     let resourceName = getResourceName(tile.resource);
-    ctx.font = "bold 18px Garamond, serif";
-    ctx.fillStyle = getResourceColor(tile.resource);
+    ctx.font = "bold 18px Georgia, serif";
+    ctx.fillStyle = gradient;
     let resourceY = !tile.number ? y + 3 : y - 2;
     ctx.fillText(resourceName, x, resourceY);
     if (tile.numberCategory === "vhi") {
@@ -435,7 +441,7 @@ function drawText(x, y, tile, ctx) {
     } else {
         ctx.fillStyle = "black";
     }
-    ctx.font = "bold 16px Garamond, serif";
+    ctx.font = "bold 14px Georgia, serif";
     if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
 }
 
