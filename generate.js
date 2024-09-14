@@ -477,7 +477,6 @@ function createHiPPICanvas(width, height, pixelRatio) {
 
 function drawBoard(board) {
     const pixelRatio = window.devicePixelRatio;
-    console.log("Device pixel ratio: " + pixelRatio);
     
     const targetWidth = 650;
     const targetHeight = 650;
@@ -490,40 +489,50 @@ function drawBoard(board) {
     drawGrid(targetWidth, targetHeight, ctx, board);
 }
 
-// set page background color
-if (redBackgroundFlag) {
-    document.documentElement.style.setProperty("background-color", "#be1d23");
-} else {
-    document.documentElement.style.setProperty("background-color", "black");
-}
-
-let areResourcesValid = false;
-let areNumbersValid = false;
-let attemptCountResources = 0;
-let attemptCountNumbers = 0;
-let board = undefined;
-
-while (!areResourcesValid && attemptCountResources < maxAttemptsToPlaceResources) {
-    board = createBoardWithResources(); // Generate board
-    attemptCountResources++;
-    areResourcesValid = isValidResourcePlacement(board);
-}
-
-if (areResourcesValid) {
-    while (!areNumbersValid && attemptCountNumbers < maxAttemptsToPlaceNumbers) {
-        placeNumbersOnBoard(board);
-        attemptCountNumbers++;
-        areNumbersValid = isValidNumberPlacement(board);
-    }
-
-    if (areNumbersValid) {
-        printBoard(board, attemptCountResources, attemptCountNumbers, areResourcesValid && areNumbersValid);
-        drawBoard(board)
-        console.log("Done!");
+function regenerateBoard() {
+    // set page background color
+    if (redBackgroundFlag) {
+        document.documentElement.style.setProperty("background-color", "#be1d23");
     } else {
-        console.log("Could not find a valid number placement :(");
+        document.documentElement.style.setProperty("background-color", "black");
     }
 
-} else {
-    console.log("Could not find a valid resource placement :(");
+    // remove existing canvas, if any
+    const parent = document.getElementById("visualboard");
+    while (parent.firstChild) {
+        parent.removeChild(parent.lastChild);
+      }
+
+    let areResourcesValid = false;
+    let areNumbersValid = false;
+    let attemptCountResources = 0;
+    let attemptCountNumbers = 0;
+    let board = undefined;
+
+    while (!areResourcesValid && attemptCountResources < maxAttemptsToPlaceResources) {
+        board = createBoardWithResources(); // Generate board
+        attemptCountResources++;
+        areResourcesValid = isValidResourcePlacement(board);
+    }
+
+    if (areResourcesValid) {
+        while (!areNumbersValid && attemptCountNumbers < maxAttemptsToPlaceNumbers) {
+            placeNumbersOnBoard(board);
+            attemptCountNumbers++;
+            areNumbersValid = isValidNumberPlacement(board);
+        }
+
+        if (areNumbersValid) {
+            printBoard(board, attemptCountResources, attemptCountNumbers, areResourcesValid && areNumbersValid);
+            drawBoard(board);
+        } else {
+            console.log("Could not find a valid number placement :(");
+        }
+
+    } else {
+        console.log("Could not find a valid resource placement :(");
+    }
 }
+
+regenerateBoard();
+
