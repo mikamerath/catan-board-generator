@@ -378,8 +378,8 @@ function drawHexagon(x, y, ctx) {
     gradient.addColorStop(1, "white");
     ctx.fillStyle = gradient;
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "black";
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#be1d23";
     //ctx.fillStyle = "white";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
@@ -420,7 +420,7 @@ function getResourceColor(resource) {
         case "O":
             return "gray";
         case "D":
-            return "black";                                                             
+            return "tan";                                                             
     }
 }
 

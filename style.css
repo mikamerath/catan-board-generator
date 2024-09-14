@@ -1,9 +1,9 @@
 html {
-    background-color: black;
+    background-color: #be1d23;
 }
 
 body {
-    font-family: 'Garamond', serif;
+    font-family: 'Georgia', serif;
     margin-left: 50px;
 }
 
@@ -13,4 +13,8 @@ h1 {
     padding-left: 20px;
     margin-bottom: 0px;
     color: gold;
+    transform: scaleY(1.6);
+    transform-origin: 0 0;
+    letter-spacing: 4px;
+    
 }
