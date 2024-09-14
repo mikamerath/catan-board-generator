@@ -21,7 +21,7 @@ let maxAttemptsToPlaceResources = 10000;
 let maxAttemptsToPlaceNumbers = 100000;
 
 let colorTextOnlyFlag = true;
-let redBackgroundFlag = true;
+let redBackgroundFlag = false;
 
 // TILE CLASS
 
