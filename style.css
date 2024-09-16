@@ -4,7 +4,7 @@ html {
 
 body {
     font-family: 'Georgia', serif;
-    margin-left: 10px;
+    margin-left: 13px;
 }
 
 #header {
@@ -14,17 +14,17 @@ body {
 #title {
     font-size: 68px;
     font-weight: bold;
-    margin-bottom: 0px;
     color: rgb(255, 215, 0);
     transform: scaleY(1.6);
     transform-origin: 0 0;
     letter-spacing: 4px;
     margin-top: 30px;
     display: inline-block;
+    padding-bottom: 35px;
 }
 
 #shuffle {
-    margin-top: 12px;
+    margin-top: 14px;
     margin-left: 12px;
     vertical-align: middle;
     cursor: pointer;

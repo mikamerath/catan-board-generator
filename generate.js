@@ -369,7 +369,7 @@ function drawGrid(width, height, ctx, board) {
 function drawCircle(x, y, ctx) {
     ctx.fillStyle = "linen";
     ctx.beginPath();
-    ctx.arc(x, y + 12, 8, 0, 2 * Math.PI);
+    ctx.arc(x, y + 14, 8, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
 }
@@ -458,7 +458,7 @@ function drawText(x, y, tile, ctx) {
         ctx.fillStyle = "black";
     }
     ctx.font = "bold 10px Georgia, serif";
-    if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 15);
+    if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 17);
 }
 
 /////// end code from https://eperezcosano.github.io/hex-grid/
