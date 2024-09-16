@@ -8,7 +8,7 @@ let limitAdjacentDesertsFlag = true;
 let requireDesertsOnEdgesFlag = true;
 
 let limitAdjacentRareNumbersFlag = true;
-let maxAdjacentRareNumbers = 3;
+let maxAdjacentRareNumbers = 3; // set to 3
 
 let limitAdjacentVeryCommonNumbersFlag = true;
 let maxAdjacentVeryCommonNumbers = 2;
@@ -489,6 +489,22 @@ function drawBoard(board) {
     drawGrid(targetWidth, targetHeight, ctx, board);
 }
 
+function drawFailure(board) {
+    const pixelRatio = window.devicePixelRatio;
+    
+    const targetWidth = 650;
+    const targetHeight = 650;
+    const canvas = createHiPPICanvas(targetWidth * pixelRatio, targetHeight * pixelRatio, pixelRatio);
+    
+    const parent = document.getElementById("visualboard");
+    parent.appendChild(canvas);  
+    const ctx = canvas.getContext("2d");
+    //ctx.textAlign = "center";
+    ctx.font = "bold 24px Georgia, serif";
+    ctx.fillStyle = "white";
+    ctx.fillText("TOO HARD :(", 80, 80);
+}
+
 function regenerateBoard() {
     // set page background color
     if (redBackgroundFlag) {
@@ -526,10 +542,12 @@ function regenerateBoard() {
             printBoard(board, attemptCountResources, attemptCountNumbers, areResourcesValid && areNumbersValid);
             drawBoard(board);
         } else {
+            drawFailure();
             console.log("Could not find a valid number placement :(");
         }
 
     } else {
+        drawFailure();
         console.log("Could not find a valid resource placement :(");
     }
 }
