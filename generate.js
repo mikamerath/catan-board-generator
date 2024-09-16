@@ -302,7 +302,7 @@ function printBoard(board, attemptCountResources, attemptCountNumbers, isValid) 
 
 /////////// Hex grid drawing code adapted from https://eperezcosano.github.io/hex-grid/ 
 const a = 2 * Math.PI / 6;
-const r = 50;
+const r = 33;
 
 function drawGrid(width, height, ctx, board) {
     let hexToTile_map = new Map([
@@ -369,7 +369,7 @@ function drawGrid(width, height, ctx, board) {
 function drawCircle(x, y, ctx) {
     ctx.fillStyle = "linen";
     ctx.beginPath();
-    ctx.arc(x, y + 21, 12, 0, 2 * Math.PI);
+    ctx.arc(x, y + 12, 8, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
 }
@@ -435,8 +435,9 @@ function getResourceColors(resource) { // dark, light
 }
 
 function drawText(x, y, tile, ctx) {
+    // resource
     let resourceName = getResourceName(tile.resource);
-    ctx.font = "bold 18px Georgia, serif";
+    ctx.font = "bold 12px Georgia, serif";
     if (colorTextOnlyFlag) {
         // define gradient
         let colors = getResourceColors(tile.resource);
@@ -447,16 +448,17 @@ function drawText(x, y, tile, ctx) {
     } else {
         ctx.fillStyle = "white";
     }
-    
-    let resourceY = !tile.number ? y + 3 : y - 2;
+    let resourceY = !tile.number ? y + 3 : y - 1;
     ctx.fillText(resourceName, x, resourceY);
+
+    // number
     if (tile.numberCategory === "vhi") {
         ctx.fillStyle = "red";
     } else {
         ctx.fillStyle = "black";
     }
-    ctx.font = "bold 15px Georgia, serif";
-    if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 25);
+    ctx.font = "bold 10px Georgia, serif";
+    if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 15);
 }
 
 /////// end code from https://eperezcosano.github.io/hex-grid/
@@ -478,8 +480,8 @@ function createHiPPICanvas(width, height, pixelRatio) {
 function drawBoard(board) {
     const pixelRatio = window.devicePixelRatio;
     
-    const targetWidth = 650;
-    const targetHeight = 650;
+    const targetWidth = 380; // 650 if r = 50
+    const targetHeight = 380; // 650 if r = 50
     const canvas = createHiPPICanvas(targetWidth * pixelRatio, targetHeight * pixelRatio, pixelRatio);
     
     const parent = document.getElementById("visualboard");
