@@ -1,3 +1,6 @@
+// see also 2613 code for checkbox mark
+
+
 // SETTINGS
 
 let limitAdjacentResourcesFlag = true;
@@ -20,8 +23,24 @@ let maxAttemptsToPlaceResources = 10000;
 
 let maxAttemptsToPlaceNumbers = 100000;
 
-let colorTextOnlyFlag = true;
+let colorTextOnlyFlag = false;
 let redBackgroundFlag = false;
+
+// the board that has been drawn
+let drawnBoard = undefined;
+
+// ONCLICK EVENTS
+
+function changeBackground(box) {
+    redBackgroundFlag = box.checked;
+    setBackgroundColor();
+}
+
+function changeColorTextOnly(box) {
+    colorTextOnlyFlag = !box.checked;
+    removeCanvas();
+    drawBoard(drawnBoard);
+}
 
 // TILE CLASS
 
@@ -369,7 +388,7 @@ function drawGrid(width, height, ctx, board) {
 function drawCircle(x, y, ctx) {
     ctx.fillStyle = "linen";
     ctx.beginPath();
-    ctx.arc(x, y + 14, 8, 0, 2 * Math.PI);
+    ctx.arc(x, y + 13, 10, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
 }
@@ -388,7 +407,7 @@ function drawHexagon(x, y, tile, ctx) {
     
     ctx.fillStyle = gradient;
 
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = 1.5;
     ctx.strokeStyle = "#dccfb7";
     //ctx.fillStyle = "white";
     ctx.beginPath();
@@ -420,25 +439,27 @@ function getResourceName(resource) {
 function getResourceColors(resource) { // dark, light
     switch (resource) {
         case "S":
-            return ["#619d3b", "#dcd569"];
+            return ["#6fb61e", "#dcd569"];
         case "W":
-            return ["#2d4716", "#89b936"];
+            return ["#16472f", "#6bbb2e"];
         case "H":
-            return ["#975a1f", "#fdd051"];
+            return ["#a47612", "#fbda48"];
         case "B":
-            return ["#603822", "#e68531"];
+            return ["#77341d", "#e68531"];
         case "O":
             return ["#443a62", "#b8ab93"];
         case "D":
-            return ["#deb977", "#cfc2ac"];                                                             
+            return ["#deb977", "#e5e0d8"];                                                             
     }
 }
 
 function drawText(x, y, tile, ctx) {
     // resource
     let resourceName = getResourceName(tile.resource);
-    ctx.font = "bold 12px Georgia, serif";
+    let resourceY = !tile.number ? y + 3 : y - 4;
     if (colorTextOnlyFlag) {
+        ctx.font = "bold 12px Georgia, serif";
+        resourceY = !tile.number ? y + 3 : y - 1;
         // define gradient
         let colors = getResourceColors(tile.resource);
         let gradient = ctx.createLinearGradient(x - r, y - r/2, x + r, y);
@@ -446,9 +467,9 @@ function drawText(x, y, tile, ctx) {
         gradient.addColorStop(1, colors[1]);
         ctx.fillStyle = gradient;
     } else {
+        ctx.font = "bold 10px Georgia, serif";
         ctx.fillStyle = "white";
     }
-    let resourceY = !tile.number ? y + 3 : y - 1;
     ctx.fillText(resourceName, x, resourceY);
 
     // number
@@ -457,7 +478,7 @@ function drawText(x, y, tile, ctx) {
     } else {
         ctx.fillStyle = "black";
     }
-    ctx.font = "bold 10px Georgia, serif";
+    ctx.font = "bold 14px Georgia, serif";
     if (tile.number !== undefined) ctx.fillText(tile.number, x, y + 17);
 }
 
@@ -489,9 +510,11 @@ function drawBoard(board) {
     const ctx = canvas.getContext("2d");
     ctx.textAlign = "center";
     drawGrid(targetWidth, targetHeight, ctx, board);
+
+    drawnBoard = board;
 }
 
-function drawFailure(board) {
+function drawFailure() {
     const pixelRatio = window.devicePixelRatio;
     
     const targetWidth = 650;
@@ -507,19 +530,27 @@ function drawFailure(board) {
     ctx.fillText("TOO HARD :(", 80, 80);
 }
 
-function regenerateBoard() {
+function setBackgroundColor() {
+    console.log("Setting background to red: " + redBackgroundFlag)
     // set page background color
     if (redBackgroundFlag) {
         document.documentElement.style.setProperty("background-color", "#be1d23");
     } else {
         document.documentElement.style.setProperty("background-color", "black");
     }
+}
 
+function removeCanvas() {
     // remove existing canvas, if any
     const parent = document.getElementById("visualboard");
     while (parent.firstChild) {
         parent.removeChild(parent.lastChild);
-      }
+    }
+}
+
+function regenerateBoard() {
+    drawnBoard = undefined;
+    removeCanvas();
 
     let areResourcesValid = false;
     let areNumbersValid = false;
@@ -554,5 +585,6 @@ function regenerateBoard() {
     }
 }
 
+setBackgroundColor();
 regenerateBoard();
 
