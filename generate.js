@@ -570,7 +570,7 @@ function setBackgroundColor() {
     console.log("Setting background to red: " + redBackgroundFlag)
     // set page background color
     if (redBackgroundFlag) {
-        document.documentElement.style.setProperty("background-color", "#be1d23");
+        document.documentElement.style.setProperty("background-color", "#d12828"); // be1d23 on my laptop, but phone looks bright red
     } else {
         document.documentElement.style.setProperty("background-color", "black");
     }
