@@ -36,6 +36,22 @@ body {
     padding: 4px 6px 0px 8px;
 }
 
+.visuals {
+    font-family: 'Georgia', serif;
+    font-size: 12px;
+    color: gold;
+    background-color: transparent;
+    border: 1px solid gold;
+    border-radius: 7px;
+    margin: 2px;
+    padding: 0px 17px;
+}
+
+.selected-button {
+    background-color: gold;
+    color: black;
+}
+
 input[type="checkbox"] {
     appearance: none;
     vertical-align: middle;

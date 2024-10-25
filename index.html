@@ -15,10 +15,28 @@
     </div>
     <div id="visualboard"></div>
     <script src="generate.js"></script>
-    <input type="checkbox" id="redBackground" name="redbackground" value="RedBackground" onclick="changeBackground(this)">
-    <label for="redbackground"> Red background</label><br>
-    <input type="checkbox" id="colorTextOnly" name="colortextonly" value="ColorTextOnly" checked="true" onclick="changeColorTextOnly(this)">
-    <label for="colortextonly"> Color entire tile </label><br>
     
+    <!-- <input type="checkbox" id="redBackground" name="redbackground" value="RedBackground" onclick="changeBackground(this)"> -->
+    <!-- <label for="redbackground">Red background</label><br> -->
+    
+    <!-- <input type="checkbox" id="colorTextOnly" name="colortextonly" value="ColorTextOnly" checked="true" onclick="changeColorTextOnly(this)"> -->
+    <!-- <label for="colortextonly">Color entire tile</label><br> -->
+
+    <!-- <input type="checkbox" id="alternateVisuals" name="alternatevisuals" value="AlternateVisuals" onclick="changeAlternateVisuals(this)"> -->
+    <!-- <label for="alternatevisuals">Use alternate visuals</label><br> -->
+
+    <button type="button" class="visuals selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">Raven Black</button>
+    <button type="button" class="visuals" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">Sunrise Red</button>
+    
+    <br>
+
+    <input type="checkbox" id="limitAdjacentResources" name="limitadjacentresources" value="LimitAdjacentResources" checked="true" onclick="changeLimitAdjacentResources(this)">
+    <label for="limitadjacentresources">Limit adjacent tiles of the same resource to 2</label><br>
+
+    <input type="checkbox" id="requireDesertsOnEdges" name="requiredesertsonedges" value="RequireDesertsOnEdges" checked="true" onclick="changeRequireDesertsOnEdges(this)">
+    <label for="requiredesertsonedges">Deserts must be on the edges</label><br>
+
+    <input type="checkbox" id="limitAdjacentDeserts" name="limitadjacentdeserts" value="LimitAdjacentDeserts" checked="true" onclick="changeLimitAdjacentDeserts(this)">
+    <label for="limitadjacentdeserts">Deserts may not touch</label><br>
   </body>
 </html>

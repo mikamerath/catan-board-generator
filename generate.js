@@ -1,27 +1,24 @@
-// see also 2613 code for checkbox mark
-
-
 // SETTINGS
 
 let limitAdjacentResourcesFlag = true;
-let maxAdjacentResources = 2;
+let maxAdjacentResources = 2; // 2, 3, unlimited
 
 let limitAdjacentDesertsFlag = true;
 
 let requireDesertsOnEdgesFlag = true;
 
 let limitAdjacentRareNumbersFlag = true;
-let maxAdjacentRareNumbers = 3; // set to 3
+let maxAdjacentRareNumbers = 2; // 2, 3, unlimited
 
 let limitAdjacentVeryCommonNumbersFlag = true;
-let maxAdjacentVeryCommonNumbers = 2;
+let maxAdjacentVeryCommonNumbers = 1; // 1, 2, unlimited
 
 let requireCommonNumbersForEachResourceFlag = true;
 let minCommonNumbersForEachResource = 2;
 
 let maxAttemptsToPlaceResources = 10000;
 
-let maxAttemptsToPlaceNumbers = 100000;
+let maxAttemptsToPlaceNumbers = 200000;
 
 let colorTextOnlyFlag = false;
 let redBackgroundFlag = false;
@@ -31,15 +28,50 @@ let drawnBoard = undefined;
 
 // ONCLICK EVENTS
 
-function changeBackground(box) {
-    redBackgroundFlag = box.checked;
-    setBackgroundColor();
+// function changeBackground(box) {
+//     redBackgroundFlag = box.checked;
+//     setBackgroundColor();
+// }
+
+// function changeColorTextOnly(box) {
+//     colorTextOnlyFlag = !box.checked;
+//     removeCanvas();
+//     drawBoard(drawnBoard);
+// }
+
+function changeAlternateVisuals(isAlternate) {
+    if (redBackgroundFlag != isAlternate) {
+        redBackgroundFlag = isAlternate;
+
+        if (redBackgroundFlag) {
+            document.getElementById("sunriseredbutton").classList.add("selected-button");
+            document.getElementById("ravenblackbutton").classList.remove("selected-button");
+        } else {
+            document.getElementById("ravenblackbutton").classList.add("selected-button");
+            document.getElementById("sunriseredbutton").classList.remove("selected-button");
+        }
+
+        setBackgroundColor();
+
+        colorTextOnlyFlag = isAlternate;
+        if(drawnBoard !== undefined) drawBoard(drawnBoard);
+        else drawFailure("... but the Settlers would like this new look!");
+    }
 }
 
-function changeColorTextOnly(box) {
-    colorTextOnlyFlag = !box.checked;
-    removeCanvas();
-    drawBoard(drawnBoard);
+function changeLimitAdjacentResources(box) {
+    limitAdjacentResourcesFlag = box.checked;
+    // must reshuffle manually to see effect
+}
+
+function changeRequireDesertsOnEdges(box) {
+    requireDesertsOnEdgesFlag = box.checked;
+    // must reshuffle manually to see effect
+}
+
+function changeLimitAdjacentDeserts(box) {
+    limitAdjacentDesertsFlag = box.checked;
+    // must reshuffle manually to see effect
 }
 
 // TILE CLASS
@@ -212,7 +244,7 @@ function isValidResourcePlacement(board) {
             if (isValidTile(r, c, board)) {
                 let tile = board[r][c]
                 if (!tile.countedResourceCheck) {
-                    // count adjacent tiles with same resource TODO
+                    // count adjacent tiles with same resource
                     let numAdjacent = countAdjacentTilesWithSameResource(tile, board);
                     tile.adjacentTilesWithSameResource = numAdjacent; // not actually necessary to save this.
                     if (limitAdjacentDesertsFlag && tile.resource === "D" && numAdjacent > 1) {
@@ -499,6 +531,7 @@ function createHiPPICanvas(width, height, pixelRatio) {
 }
 
 function drawBoard(board) {
+    removeCanvas();
     const pixelRatio = window.devicePixelRatio;
     
     const targetWidth = 380; // 650 if r = 50
@@ -514,20 +547,23 @@ function drawBoard(board) {
     drawnBoard = board;
 }
 
-function drawFailure() {
+function drawFailure(message) {
+    removeCanvas();
     const pixelRatio = window.devicePixelRatio;
     
-    const targetWidth = 650;
-    const targetHeight = 650;
+    const targetWidth = 380;
+    const targetHeight = 380;
     const canvas = createHiPPICanvas(targetWidth * pixelRatio, targetHeight * pixelRatio, pixelRatio);
     
     const parent = document.getElementById("visualboard");
     parent.appendChild(canvas);  
     const ctx = canvas.getContext("2d");
     //ctx.textAlign = "center";
-    ctx.font = "bold 24px Georgia, serif";
     ctx.fillStyle = "white";
-    ctx.fillText("TOO HARD :(", 80, 80);
+    ctx.font = "bold 18px Georgia, serif";
+    ctx.fillText("You have sailed past Catan", 55, 80);
+    ctx.font = "10px Georgia, serif";
+    ctx.fillText(message, 50, 120);
 }
 
 function setBackgroundColor() {
@@ -550,7 +586,6 @@ function removeCanvas() {
 
 function regenerateBoard() {
     drawnBoard = undefined;
-    removeCanvas();
 
     let areResourcesValid = false;
     let areNumbersValid = false;
@@ -575,12 +610,12 @@ function regenerateBoard() {
             printBoard(board, attemptCountResources, attemptCountNumbers, areResourcesValid && areNumbersValid);
             drawBoard(board);
         } else {
-            drawFailure();
+            drawFailure("Could not place numbers as requested in " + maxAttemptsToPlaceNumbers + " attempts.");
             console.log("Could not find a valid number placement :(");
         }
 
     } else {
-        drawFailure();
+        drawFailure("Could not place numbers as requested in " + maxAttemptsToPlaceResources + " attempts.");
         console.log("Could not find a valid resource placement :(");
     }
 }
