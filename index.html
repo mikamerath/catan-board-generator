@@ -11,7 +11,7 @@
     <div id="header">
       <div id="title">CATAN</div>
       <!-- shuffle image is 214 x 188 px -->
-      <button id="shuffle"><img src="shuffle.png" alt="Shuffle" style="width:55px;height:45px;" onclick="regenerateBoard()"/></button>
+      <button id="shuffle"><img src="shuffleblack.png" alt="Shuffle" style="width:55px;height:45px;" onclick="regenerateBoard()"/></button>
     </div>
     <div id="visualboard"></div>
     <script src="generate.js"></script>
@@ -24,19 +24,36 @@
 
     <!-- <input type="checkbox" id="alternateVisuals" name="alternatevisuals" value="AlternateVisuals" onclick="changeAlternateVisuals(this)"> -->
     <!-- <label for="alternatevisuals">Use alternate visuals</label><br> -->
+    <div id="optionssection">
+      <button type="button" class="options selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">Raven black</button>
+      <button type="button" class="options" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">Sunrise red</button>
+      
+      <br>
+  
+      <!-- Limit adjacent tiles of same resource to:  -->
+      <button type="button" class="options selected-button" id="adjacenttwo" onclick="changeLimitAdjacentResources(2)">Max 2 adjacent</button>
+      <button type="button" class="options" id="adjacentthree" onclick="changeLimitAdjacentResources(3)">Max 3 adjacent</button>
+      <button type="button" class="options" id="adjacentunlimited" onclick="changeLimitAdjacentResources(100)">Unlimited adjacent</button>
+      
+      <br>
 
-    <button type="button" class="visuals selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">Raven Black</button>
-    <button type="button" class="visuals" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">Sunrise Red</button>
+      <button type="button" class="options selected-button" id="desertsedges" onclick="changeRequireDesertsOnEdges(true)">Deserts on edges</button>
+      <button type="button" class="options" id="desertsanywhere" onclick="changeRequireDesertsOnEdges(false)">Deserts anywhere</button>
+      
+      <br>
+
+      <button type="button" class="options selected-button" id="noadjacentdeserts" onclick="changeLimitAdjacentDeserts(true)">No adjacent deserts</button>
+      <button type="button" class="options" id="adjacentdeserts" onclick="changeLimitAdjacentDeserts(false)">Allow adjacent deserts</button>
+      
+    </div>
     
-    <br>
+    <!-- <input type="checkbox" id="limitAdjacentResources" name="limitadjacentresources" value="LimitAdjacentResources" checked="true" onclick="changeLimitAdjacentResources(this)"> -->
+    <!-- <label for="limitadjacentresources">Limit adjacent tiles of the same resource to 2</label><br> -->
 
-    <input type="checkbox" id="limitAdjacentResources" name="limitadjacentresources" value="LimitAdjacentResources" checked="true" onclick="changeLimitAdjacentResources(this)">
-    <label for="limitadjacentresources">Limit adjacent tiles of the same resource to 2</label><br>
+    <!-- <input type="checkbox" id="requireDesertsOnEdges" name="requiredesertsonedges" value="RequireDesertsOnEdges" checked="true" onclick="changeRequireDesertsOnEdges(this)"> -->
+    <!-- <label for="requiredesertsonedges">Deserts must be on the edges</label><br> -->
 
-    <input type="checkbox" id="requireDesertsOnEdges" name="requiredesertsonedges" value="RequireDesertsOnEdges" checked="true" onclick="changeRequireDesertsOnEdges(this)">
-    <label for="requiredesertsonedges">Deserts must be on the edges</label><br>
-
-    <input type="checkbox" id="limitAdjacentDeserts" name="limitadjacentdeserts" value="LimitAdjacentDeserts" checked="true" onclick="changeLimitAdjacentDeserts(this)">
-    <label for="limitadjacentdeserts">Deserts may not touch</label><br>
+    <!-- <input type="checkbox" id="limitAdjacentDeserts" name="limitadjacentdeserts" value="LimitAdjacentDeserts" checked="true" onclick="changeLimitAdjacentDeserts(this)"> -->
+    <!-- <label for="limitadjacentdeserts">Deserts may not touch</label><br> -->
   </body>
 </html>

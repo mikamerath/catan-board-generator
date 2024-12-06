@@ -15,7 +15,7 @@ body {
 #title {
     font-size: 68px;
     font-weight: bold;
-    color: rgb(255, 215, 0);
+    color: #dccfb7;
     transform: scaleY(1.6);
     transform-origin: 0 0;
     letter-spacing: 4px;
@@ -30,25 +30,26 @@ body {
     margin-left: 12px;
     vertical-align: middle;
     cursor: pointer;
-    background-color: transparent;
-    border: 1px solid gold;
+    background-color: #dccfb7;
+    border: 1px solid #dccfb7;
     border-radius: 10px;
     padding: 4px 6px 0px 8px;
 }
 
-.visuals {
+.options {
     font-family: 'Georgia', serif;
-    font-size: 12px;
-    color: gold;
+    font-size: 11px;
+    font-weight: bold;
+    color: #dccfb7;
     background-color: transparent;
-    border: 1px solid gold;
-    border-radius: 7px;
-    margin: 2px;
-    padding: 0px 17px;
+    border: 1px solid #dccfb7;
+    border-radius: 5px;
+    margin: 5px 0.5px;
+    padding: 1px 11px;
 }
 
 .selected-button {
-    background-color: gold;
+    background-color: #dccfb7;
     color: black;
 }
 
@@ -74,7 +75,7 @@ input:checked:after {
 	color: black;
 }
 
-label {
+#optionssection, label {
     vertical-align: middle;
     font-size: 13px;
 }

@@ -1,3 +1,7 @@
+// file:///C:/Users/marwt/Documents/code/catan-board-generator/index.html
+
+// https://mikamerath.github.io/catan-board-generator/
+
 // SETTINGS
 
 let limitAdjacentResourcesFlag = true;
@@ -59,18 +63,52 @@ function changeAlternateVisuals(isAlternate) {
     }
 }
 
-function changeLimitAdjacentResources(box) {
-    limitAdjacentResourcesFlag = box.checked;
+function changeLimitAdjacentResources(limit) {
+    maxAdjacentResources = limit;
+    limitAdjacentResourcesFlag = limit < 10;
+    
+    if (maxAdjacentResources == 2) {
+        document.getElementById("adjacenttwo").classList.add("selected-button");
+        document.getElementById("adjacentthree").classList.remove("selected-button");
+        document.getElementById("adjacentunlimited").classList.remove("selected-button");
+    } else if (maxAdjacentResources == 3) {
+        document.getElementById("adjacentthree").classList.add("selected-button");
+        document.getElementById("adjacenttwo").classList.remove("selected-button");
+        document.getElementById("adjacentunlimited").classList.remove("selected-button");
+    } else {
+        document.getElementById("adjacentunlimited").classList.add("selected-button");
+        document.getElementById("adjacenttwo").classList.remove("selected-button");
+        document.getElementById("adjacentthree").classList.remove("selected-button");
+    }
+
     // must reshuffle manually to see effect
 }
 
-function changeRequireDesertsOnEdges(box) {
-    requireDesertsOnEdgesFlag = box.checked;
+function changeRequireDesertsOnEdges(requireDesertsOnEdges) {
+    requireDesertsOnEdgesFlag = requireDesertsOnEdges;
+
+    if (requireDesertsOnEdgesFlag) {
+        document.getElementById("desertsedges").classList.add("selected-button");
+        document.getElementById("desertsanywhere").classList.remove("selected-button");
+    } else {
+        document.getElementById("desertsanywhere").classList.add("selected-button");
+        document.getElementById("desertsedges").classList.remove("selected-button");
+    }
+
     // must reshuffle manually to see effect
 }
 
-function changeLimitAdjacentDeserts(box) {
-    limitAdjacentDesertsFlag = box.checked;
+function changeLimitAdjacentDeserts(limitAdjacentDeserts) {
+    limitAdjacentDesertsFlag = limitAdjacentDeserts;
+
+    if (limitAdjacentDesertsFlag) {
+        document.getElementById("noadjacentdeserts").classList.add("selected-button");
+        document.getElementById("adjacentdeserts").classList.remove("selected-button");
+    } else {
+        document.getElementById("adjacentdeserts").classList.add("selected-button");
+        document.getElementById("noadjacentdeserts").classList.remove("selected-button");
+    }
+
     // must reshuffle manually to see effect
 }
 
@@ -564,6 +602,8 @@ function drawFailure(message) {
     ctx.fillText("You have sailed past Catan", 55, 80);
     ctx.font = "10px Georgia, serif";
     ctx.fillText(message, 50, 120);
+    ctx.font = "italic 10px Georgia, serif";
+    ctx.fillText("Reshuffle to try again.", 130, 140);
 }
 
 function setBackgroundColor() {
@@ -615,7 +655,7 @@ function regenerateBoard() {
         }
 
     } else {
-        drawFailure("Could not place numbers as requested in " + maxAttemptsToPlaceResources + " attempts.");
+        drawFailure("Could not place resources as requested in " + maxAttemptsToPlaceResources + " attempts.");
         console.log("Could not find a valid resource placement :(");
     }
 }
