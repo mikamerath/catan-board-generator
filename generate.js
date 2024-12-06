@@ -469,16 +469,18 @@ function drawHexagon(x, y, tile, ctx) {
     if (colorTextOnlyFlag) {
         gradient.addColorStop(0, "oldlace");
         gradient.addColorStop(1, "white");
+        ctx.strokeStyle = "#dccfb7";
     } else {
         let colors = getResourceColors(tile.resource);
         gradient.addColorStop(0, colors[0]);
         gradient.addColorStop(1, colors[1]);
+        ctx.strokeStyle = "black";
     }
     
     ctx.fillStyle = gradient;
 
     ctx.lineWidth = 1.5;
-    ctx.strokeStyle = "#dccfb7";
+    //ctx.strokeStyle = "#dccfb7";
     //ctx.fillStyle = "white";
     ctx.beginPath();
     for (let i = 0; i < 6; i++) {
