@@ -25,25 +25,45 @@
     <!-- <input type="checkbox" id="alternateVisuals" name="alternatevisuals" value="AlternateVisuals" onclick="changeAlternateVisuals(this)"> -->
     <!-- <label for="alternatevisuals">Use alternate visuals</label><br> -->
     <div id="optionssection">
+      <div class="options-header">THEME</div>
+      
       <button type="button" class="options selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">Raven black</button>
       <button type="button" class="options" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">Sunrise red</button>
-      
       <br>
   
-      <!-- Limit adjacent tiles of same resource to:  -->
+      <div class="options-header">RESOURCES</div>
+      
       <button type="button" class="options selected-button" id="adjacenttwo" onclick="changeLimitAdjacentResources(2)">Max 2 adjacent</button>
       <button type="button" class="options" id="adjacentthree" onclick="changeLimitAdjacentResources(3)">Max 3 adjacent</button>
       <button type="button" class="options" id="adjacentunlimited" onclick="changeLimitAdjacentResources(100)">Unlimited adjacent</button>
-      
       <br>
 
+      <div class="options-header">COMMON NUMBERS - 5, 6, 8, 9</div>
+      <button type="button" class="options selected-button" id="commontwo" onclick="changeRequireCommonNumbersForEachResource(2)">Min 2 per resource</button>
+      <button type="button" class="options" id="commonone" onclick="changeRequireCommonNumbersForEachResource(1)">Min 1 per resource</button>
+      <button type="button" class="options" id="commonany" onclick="changeRequireCommonNumbersForEachResource(0)">Unrestricted</button>
+      <br>
+
+      <div class="options-header">RED NUMBERS - 6, 8</div>
+      <button type="button" class="options selected-button" id="noadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(1)">None adjacent</button>
+      <button type="button" class="options" id="twoadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(2)">Max 2 adjacent</button>
+      <button type="button" class="options" id="unlimitedadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(100)">Unlimited adjacent</button>
+      <br>
+
+      <div class="options-header">RARE NUMBERS - 2, 3, 11, 12</div>
+      <button type="button" class="options selected-button" id="raretwo" onclick="changeLimitAdjacentRareNumbers(2)">Max 2 adjacent</button>
+      <button type="button" class="options" id="rarethree" onclick="changeLimitAdjacentRareNumbers(3)">Max 3 adjacent</button>
+      <button type="button" class="options" id="rareunlimited" onclick="changeLimitAdjacentRareNumbers(100)">Unlimited adjacent</button>
+      <br>
+
+      <div class="options-header">DESERTS</div>
+      
       <button type="button" class="options selected-button" id="desertsedges" onclick="changeRequireDesertsOnEdges(true)">Deserts on edges</button>
       <button type="button" class="options" id="desertsanywhere" onclick="changeRequireDesertsOnEdges(false)">Deserts anywhere</button>
-      
       <br>
 
-      <button type="button" class="options selected-button" id="noadjacentdeserts" onclick="changeLimitAdjacentDeserts(true)">No adjacent deserts</button>
-      <button type="button" class="options" id="adjacentdeserts" onclick="changeLimitAdjacentDeserts(false)">Allow adjacent deserts</button>
+      <button type="button" class="options selected-button" id="noadjacentdeserts" onclick="changeLimitAdjacentDeserts(true)">None adjacent</button>
+      <button type="button" class="options" id="adjacentdeserts" onclick="changeLimitAdjacentDeserts(false)">Unlimited adjacent</button>
       
     </div>
     

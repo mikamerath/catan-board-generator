@@ -36,15 +36,26 @@ body {
     padding: 4px 6px 0px 8px;
 }
 
-.options {
+#optionssection, .options {
+    vertical-align: middle;
     font-family: 'Georgia', serif;
     font-size: 11px;
     font-weight: bold;
+    margin-top: 12px;
     color: #dccfb7;
+    
+}
+
+.options-header{
+    margin-top: 7px;
+    font-size: 9px;
+}
+
+.options {
     background-color: transparent;
     border: 1px solid #dccfb7;
     border-radius: 5px;
-    margin: 5px 0.5px;
+    margin: 3px 0.5px;
     padding: 1px 11px;
     cursor: pointer;
 }
@@ -74,10 +85,4 @@ input:checked:after {
     padding-top: 0px;
     margin-top: 0px;
 	color: black;
-}
-
-#optionssection {
-    vertical-align: middle;
-    font-size: 13px;
-    margin-top: 12px;
 }

@@ -2,6 +2,14 @@
 
 // https://mikamerath.github.io/catan-board-generator/
 
+/**
+ * TODO
+ * - add presets "balanced" "spicy" "wild west" and none state
+ * - improve shuffle experience - loading state, icon style, sailed past styling
+ * - fix colors on mobile, and improve themes. sunrise ->  frontier, raven -> empire 
+ * - announce v 3.0 ... kindly report feature requests to michael or margaret, and bugs to james :grin:
+ */
+
 // SETTINGS
 
 let limitAdjacentResourcesFlag = true;
@@ -11,14 +19,17 @@ let limitAdjacentDesertsFlag = true;
 
 let requireDesertsOnEdgesFlag = true;
 
+// rare numbers are 2, 3, 11, 12
 let limitAdjacentRareNumbersFlag = true;
 let maxAdjacentRareNumbers = 2; // 2, 3, unlimited
 
+// very common numbers are 6, 8
 let limitAdjacentVeryCommonNumbersFlag = true;
 let maxAdjacentVeryCommonNumbers = 1; // 1, 2, unlimited
 
+// common numbers are 5, 6, 8, 9
 let requireCommonNumbersForEachResourceFlag = true;
-let minCommonNumbersForEachResource = 2;
+let minCommonNumbersForEachResource = 2; // 2, 1, unrestricted
 
 let maxAttemptsToPlaceResources = 10000;
 
@@ -79,6 +90,69 @@ function changeLimitAdjacentResources(limit) {
         document.getElementById("adjacentunlimited").classList.add("selected-button");
         document.getElementById("adjacenttwo").classList.remove("selected-button");
         document.getElementById("adjacentthree").classList.remove("selected-button");
+    }
+
+    // must reshuffle manually to see effect
+}
+
+function changeLimitAdjacentVeryCommonNumbers(limit) {
+    maxAdjacentVeryCommonNumbers = limit;
+    limitAdjacentVeryCommonNumbersFlag = limit < 10;
+    
+    if (maxAdjacentVeryCommonNumbers == 1) {
+        document.getElementById("noadjacentreds").classList.add("selected-button");
+        document.getElementById("twoadjacentreds").classList.remove("selected-button");
+        document.getElementById("unlimitedadjacentreds").classList.remove("selected-button");
+    } else if (maxAdjacentVeryCommonNumbers == 2) {
+        document.getElementById("twoadjacentreds").classList.add("selected-button");
+        document.getElementById("noadjacentreds").classList.remove("selected-button");
+        document.getElementById("unlimitedadjacentreds").classList.remove("selected-button");
+    } else {
+        document.getElementById("unlimitedadjacentreds").classList.add("selected-button");
+        document.getElementById("noadjacentreds").classList.remove("selected-button");
+        document.getElementById("twoadjacentreds").classList.remove("selected-button");
+    }
+
+    // must reshuffle manually to see effect
+}
+
+function changeRequireCommonNumbersForEachResource(min) {
+    minCommonNumbersForEachResource = min;
+    requireCommonNumbersForEachResourceFlag = min > 0;
+    
+    if (minCommonNumbersForEachResource == 2) {
+        document.getElementById("commontwo").classList.add("selected-button");
+        document.getElementById("commonone").classList.remove("selected-button");
+        document.getElementById("commonany").classList.remove("selected-button");
+    } else if (minCommonNumbersForEachResource == 1) {
+        document.getElementById("commonone").classList.add("selected-button");
+        document.getElementById("commontwo").classList.remove("selected-button");
+        document.getElementById("commonany").classList.remove("selected-button");
+    } else {
+        document.getElementById("commonany").classList.add("selected-button");
+        document.getElementById("commontwo").classList.remove("selected-button");
+        document.getElementById("commonone").classList.remove("selected-button");
+    }
+
+    // must reshuffle manually to see effect
+}
+
+function changeLimitAdjacentRareNumbers(limit) {
+    maxAdjacentRareNumbers = limit;
+    limitAdjacentRareNumbersFlag = limit < 10;
+    
+    if (maxAdjacentRareNumbers == 2) {
+        document.getElementById("raretwo").classList.add("selected-button");
+        document.getElementById("rarethree").classList.remove("selected-button");
+        document.getElementById("rareunlimited").classList.remove("selected-button");
+    } else if (maxAdjacentRareNumbers == 3) {
+        document.getElementById("rarethree").classList.add("selected-button");
+        document.getElementById("raretwo").classList.remove("selected-button");
+        document.getElementById("rareunlimited").classList.remove("selected-button");
+    } else {
+        document.getElementById("rareunlimited").classList.add("selected-button");
+        document.getElementById("raretwo").classList.remove("selected-button");
+        document.getElementById("rarethree").classList.remove("selected-button");
     }
 
     // must reshuffle manually to see effect
