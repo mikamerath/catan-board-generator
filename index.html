@@ -27,8 +27,15 @@
     <div id="optionssection">
       <div class="options-header">THEME</div>
       
-      <button type="button" class="options selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">Raven black</button>
-      <button type="button" class="options" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">Sunrise red</button>
+      <button type="button" class="options selected-button" id="ravenblackbutton" onclick="changeAlternateVisuals(false)">EMPIRE BLACK</button>
+      <button type="button" class="options" id="sunriseredbutton" onclick="changeAlternateVisuals(true)">FRONTIER RED</button>
+      <br>
+
+      <div class="options-header">PRESETS</div>
+      
+      <button type="button" class="options selected-button" id="balanced" onclick="setPresetBalanced()">BALANCED</button>
+      <button type="button" class="options" id="spicy" onclick="setPresetSpicy()">SPICY</button>
+      <button type="button" class="options" id="wildwest" onclick="setPresetWildWest()">WILD WEST</button>
       <br>
   
       <div class="options-header">RESOURCES</div>
@@ -39,18 +46,21 @@
       <br>
 
       <div class="options-header">COMMON NUMBERS - 5, 6, 8, 9</div>
+      
       <button type="button" class="options selected-button" id="commontwo" onclick="changeRequireCommonNumbersForEachResource(2)">Min 2 per resource</button>
       <button type="button" class="options" id="commonone" onclick="changeRequireCommonNumbersForEachResource(1)">Min 1 per resource</button>
       <button type="button" class="options" id="commonany" onclick="changeRequireCommonNumbersForEachResource(0)">Unrestricted</button>
       <br>
 
       <div class="options-header">RED NUMBERS - 6, 8</div>
+      
       <button type="button" class="options selected-button" id="noadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(1)">None adjacent</button>
       <button type="button" class="options" id="twoadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(2)">Max 2 adjacent</button>
       <button type="button" class="options" id="unlimitedadjacentreds" onclick="changeLimitAdjacentVeryCommonNumbers(100)">Unlimited adjacent</button>
       <br>
 
       <div class="options-header">RARE NUMBERS - 2, 3, 11, 12</div>
+
       <button type="button" class="options selected-button" id="raretwo" onclick="changeLimitAdjacentRareNumbers(2)">Max 2 adjacent</button>
       <button type="button" class="options" id="rarethree" onclick="changeLimitAdjacentRareNumbers(3)">Max 3 adjacent</button>
       <button type="button" class="options" id="rareunlimited" onclick="changeLimitAdjacentRareNumbers(100)">Unlimited adjacent</button>

@@ -4,9 +4,8 @@
 
 /**
  * TODO
- * - add presets "balanced" "spicy" "wild west" and none state
  * - improve shuffle experience - loading state, icon style, sailed past styling
- * - fix colors on mobile, and improve themes. sunrise ->  frontier, raven -> empire 
+ * - fix colors on mobile, and improve themes.  
  * - announce v 3.0 ... kindly report feature requests to michael or margaret, and bugs to james :grin:
  */
 
@@ -74,6 +73,69 @@ function changeAlternateVisuals(isAlternate) {
     }
 }
 
+function setPresetBalanced() {
+    changeLimitAdjacentResources(2);
+    changeLimitAdjacentVeryCommonNumbers(1);
+    changeRequireCommonNumbersForEachResource(2);
+    changeLimitAdjacentRareNumbers(2);
+    changeRequireDesertsOnEdges(true);
+    changeLimitAdjacentDeserts(true);
+
+    document.getElementById("balanced").classList.add("selected-button");
+    document.getElementById("spicy").classList.remove("selected-button");
+    document.getElementById("wildwest").classList.remove("selected-button");
+}
+
+function setPresetSpicy() {
+    changeLimitAdjacentResources(3);
+    changeLimitAdjacentVeryCommonNumbers(2);
+    changeRequireCommonNumbersForEachResource(1);
+    changeLimitAdjacentRareNumbers(3);
+    changeRequireDesertsOnEdges(false);
+    changeLimitAdjacentDeserts(true);
+
+    document.getElementById("spicy").classList.add("selected-button");
+    document.getElementById("balanced").classList.remove("selected-button");
+    document.getElementById("wildwest").classList.remove("selected-button");
+}
+
+function setPresetWildWest() {
+    changeLimitAdjacentResources(100);
+    changeLimitAdjacentVeryCommonNumbers(100);
+    changeRequireCommonNumbersForEachResource(0);
+    changeLimitAdjacentRareNumbers(100);
+    changeRequireDesertsOnEdges(false);
+    changeLimitAdjacentDeserts(false);
+
+    document.getElementById("wildwest").classList.add("selected-button");
+    document.getElementById("balanced").classList.remove("selected-button");
+    document.getElementById("spicy").classList.remove("selected-button");
+}
+
+function checkPresets() {
+    let isBalanced = (maxAdjacentResources == 2) && (maxAdjacentVeryCommonNumbers == 1) && (minCommonNumbersForEachResource == 2) && (maxAdjacentRareNumbers == 2) && requireDesertsOnEdgesFlag && limitAdjacentDesertsFlag;
+    let isSpicy = (maxAdjacentResources == 3) && (maxAdjacentVeryCommonNumbers == 2) && (minCommonNumbersForEachResource == 1) && (maxAdjacentRareNumbers == 3) && !requireDesertsOnEdgesFlag && limitAdjacentDesertsFlag;
+    let isWildWest = (maxAdjacentResources == 100) && (maxAdjacentVeryCommonNumbers == 100) && (minCommonNumbersForEachResource == 0) && (maxAdjacentRareNumbers == 100) && !requireDesertsOnEdgesFlag && !limitAdjacentDesertsFlag;
+
+    if (isBalanced) {
+        document.getElementById("balanced").classList.add("selected-button");
+    } else {
+        document.getElementById("balanced").classList.remove("selected-button");
+    }
+
+    if (isSpicy) {
+        document.getElementById("spicy").classList.add("selected-button");
+    } else {
+        document.getElementById("spicy").classList.remove("selected-button");
+    }
+
+    if (isWildWest) {
+        document.getElementById("wildwest").classList.add("selected-button");
+    } else {
+        document.getElementById("wildwest").classList.remove("selected-button");
+    }
+}
+
 function changeLimitAdjacentResources(limit) {
     maxAdjacentResources = limit;
     limitAdjacentResourcesFlag = limit < 10;
@@ -92,6 +154,7 @@ function changeLimitAdjacentResources(limit) {
         document.getElementById("adjacentthree").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
@@ -113,6 +176,7 @@ function changeLimitAdjacentVeryCommonNumbers(limit) {
         document.getElementById("twoadjacentreds").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
@@ -134,6 +198,7 @@ function changeRequireCommonNumbersForEachResource(min) {
         document.getElementById("commonone").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
@@ -155,6 +220,7 @@ function changeLimitAdjacentRareNumbers(limit) {
         document.getElementById("rarethree").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
@@ -169,6 +235,7 @@ function changeRequireDesertsOnEdges(requireDesertsOnEdges) {
         document.getElementById("desertsedges").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
@@ -183,6 +250,7 @@ function changeLimitAdjacentDeserts(limitAdjacentDeserts) {
         document.getElementById("noadjacentdeserts").classList.remove("selected-button");
     }
 
+    checkPresets();
     // must reshuffle manually to see effect
 }
 
